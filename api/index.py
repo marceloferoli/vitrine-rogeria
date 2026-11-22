@@ -24,7 +24,7 @@ def index():
         whats = "55" + whats
     for p in produtos:
         msg = f"Olá Maria Rogéria! Tenho interesse em: *{p['nome']}* ({p['marca']}) por *R$ {p['preco_promocional']:.2f}*."
-        p["link_whatsapp"] = f"https://wa.me{whats}?text={quote(msg)}"
+        p["link_whatsapp"] = f"https://wa.me/{whats}?text={quote(msg)}"
     return render_template("index.html", produtos=produtos, marca_selecionada=marca)
 
 @app.route("/login", methods=["GET", "POST"])
