@@ -1,3 +1,4 @@
+import re
 import os, sys
 from urllib.parse import quote
 from flask import Flask, render_template, request, redirect, url_for, session, flash
@@ -17,7 +18,10 @@ service = ProdutoService()
 def index():
     marca = request.args.get("marca", "Todas")
     produtos = service.listar_ativos(marca)
-    whats = os.environ.get("WHATSAPP_NUMERO", "5538999999999")
+    whats_bruto = os.environ.get("WHATSAPP_NUMERO", "5538999999999")
+    whats = re.sub(r"\D", "", whats_bruto)
+    if len(whats) in (10, 11):
+        whats = "55" + whats
     for p in produtos:
         msg = f"Olá Maria Rogéria! Tenho interesse em: *{p['nome']}* ({p['marca']}) por *R$ {p['preco_promocional']:.2f}*."
         p["link_whatsapp"] = f"https://wa.me{whats}?text={quote(msg)}"
